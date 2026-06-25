@@ -189,8 +189,27 @@ jobs:
             sudo systemctl daemon-reload
             sudo systemctl enable mlops-serve
             sudo systemctl restart mlops-serve
-            sleep 5
-
+            # Retry health check up to 90 seconds, every 3 seconds
+            max_wait=90
+            interval=3
+            elapsed=0
+            while [ $elapsed -lt $max_wait ]; do
+              echo "Checking systemd service status..."
+              sudo systemctl is-active --quiet mlops-serve
+              if [ $? -eq 0 ]; then
+                echo "Service is active, performing curl health check..."
+                if curl -fsS http://localhost:8000/health; then
+                  echo "Health check passed."
+                  sudo ss -tulpn | grep 8000
+                  exit 0
+                fi
+              fi
+              echo "Health check failed, retrying in $interval seconds..."
+              sleep $interval
+              elapsed=$((elapsed + interval))
+            done
+            echo "Health check failed after $max_wait seconds."
             sudo systemctl status mlops-serve --no-pager -l
-            curl -f http://localhost:8000/health
+            sudo journalctl -u mlops-serve -n 120 --no-pager
             sudo ss -tulpn | grep 8000
+            exit 1
