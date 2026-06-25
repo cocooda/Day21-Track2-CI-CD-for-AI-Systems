@@ -62,4 +62,4 @@ curl -X POST http://$env:VM_HOST:8000/predict `
 4. **No-Regression Gate:** The pipeline fetches the previously deployed `metrics.json` from GCS and blocks deployment if the new accuracy is lower.
 5. **Data Drift Warning:** The training pipeline computes label distribution and warns if any class makes up less than 10% of the training set.
 
-*DagsHub Tracking URL: `<Replace with your DagsHub URL>`*
+*DagsHub Tracking URL: `https://dagshub.com/cocooda/Day21-Track2-CI-CD-for-AI-Systems`*

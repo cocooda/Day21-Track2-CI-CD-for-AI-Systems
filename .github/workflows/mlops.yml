@@ -55,7 +55,7 @@ jobs:
           else
             dvc remote add --local -d storage "gs://${{ secrets.GCP_BUCKET }}/dvc"
           fi
-          dvc pull data/train_phase1.csv data/eval.csv
+          dvc pull data/train_phase1.csv data/train_phase2.csv data/eval.csv
 
       - name: Train model
         env:
