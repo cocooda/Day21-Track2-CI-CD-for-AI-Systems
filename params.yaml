@@ -1,5 +1,16 @@
-# Sieu tham so cho mo hinh RandomForestClassifier
-# Thay doi cac gia tri nay giua cac lan chay de thi nghiem (Buoc 1)
-n_estimators: 100
-max_depth: 5
-min_samples_split: 2
+# Sieu tham so cho mo hinh
+model_type: random_forest # random_forest, gradient_boosting, logistic_regression
+
+random_forest:
+  n_estimators: 100
+  max_depth: 5
+  min_samples_split: 2
+
+gradient_boosting:
+  n_estimators: 100
+  learning_rate: 0.1
+  max_depth: 3
+
+logistic_regression:
+  max_iter: 1000
+  C: 1.0
