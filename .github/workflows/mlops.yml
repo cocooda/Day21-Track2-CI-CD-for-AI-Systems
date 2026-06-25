@@ -50,7 +50,11 @@ jobs:
 
       - name: Pull data with DVC
         run: |
-          dvc remote modify --local storage url "gs://${{ secrets.GCP_BUCKET }}/dvc"
+          if dvc remote list | grep -q '^storage'; then
+            dvc remote modify --local storage url "gs://${{ secrets.GCP_BUCKET }}/dvc"
+          else
+            dvc remote add --local -d storage "gs://${{ secrets.GCP_BUCKET }}/dvc"
+          fi
           dvc pull data/train_phase1.csv data/eval.csv
 
       - name: Train model
